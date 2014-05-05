@@ -7,6 +7,9 @@
 *.obj
 ipch/**
 
+# Nuget packages folder
+/packages/**
+
 # Compiled source #
 ###################
 *.com
