@@ -18,6 +18,9 @@ ipch/**
 *.exe
 *.dylib
 
+#don't ignore stuff in nuget folder.
+!/.nuget/**/*.*
+
 docs/**/*.html
 ## Except in libriaries
 *.so
