@@ -2,7 +2,7 @@ nuget {
 	nuspec {
 		id = lsleep;
 		title: lsleep module for Lua;
-		version: 1.0.000.1;
+		version: 1.0.000.4;
 		authors: {coapp, Andrew Starks, Tightrope Media Systems};
 		owners: {Tightrope Media Systems};
 		licenseUrl: "http://opensource.org/licenses/MIT";
@@ -12,20 +12,28 @@ nuget {
 		copyright: "Copyright 2013-2014 Tightrope Media Systems, Saint Paul, Minnesota";
 		tags: {native, Lua, module};
 		description: {
-@"lsleep is a cross-platform, high performance sleep timer for lua. It uses the operating system's (Windows/Mac/Linux) native sleep facility to pause Lua execution for a specified time.";}
+@"lsleep is a cross-platform, high performance sleep timer for lua. It uses the operating system's (Windows/Mac/Linux) native sleep facility to pause Lua execution for a specified time."};
 	};
-
+dependencies {
+        // This node defines any outside items which may be needed to consume this package.
+        packages : {
+            // This is a list of other NuGet packages required to use this package.
+            // Each item follows the format "<pkg_name>/<version>"
+            lua/"[5.2, 5.4)",
+        };
+    };
 	files {
 		docs : {
-			#destination = ${d_docs}\lsleep;
-			doc\**\*
+			#destination = {"${d_docs}\lsleep"};
+			{"doc\**\*"};
 		};
-		[x64, v100]
-        	bin: {
-        		x64\Release\*.dll
-        	};
-        	pdb: x64\Release\*.pdb;
-        [win32, v100]
-        	bin: {Win32\Release\*.dll};
+		[x64, v100] {
+        	bin: {"x64\Release\*.dll"};
+        	//pdb: {x64\Release\*.pdb};
+        };
+        [win32, v100]{
+        	bin: {"Win32\Release\*.dll"};
+        	//pdb: {"Win32\Release\*.pdb"};
+        }
     }
 }
