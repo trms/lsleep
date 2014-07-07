@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="lsleep.autopkg" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
