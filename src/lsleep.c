@@ -37,24 +37,33 @@ Blocks execution of your Lua script for `wait` X 100 nanoseconds (NT) (1/10,000,
 */
 
 #ifdef _WINDLL
-int lsleep_usleep(lua_State *L ) 
+int lsleep_time(lua_State *L)
+{
+	LARGE_INTEGER ft; 
+	QueryPerformanceCounter(&ft);
+	lua_pushinteger(L, (_int64) ft.QuadPart);
+	return 1;
+}
+
+int lsleep_sleep(lua_State *L ) 
 { 
 	__int64 usec;
     HANDLE timer; 
     LARGE_INTEGER ft; 
-
-	usec = (__int64) lua_tonumber(L,1);
+	
+	usec = (__int64) luaL_checkinteger(L,1);
     ft.QuadPart = -(10*usec); // neg is relative
 
     timer = CreateWaitableTimer(NULL, TRUE, NULL); 
     SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
     WaitForSingleObject(timer, INFINITE); 
     CloseHandle(timer);
-	return 0;
+
+	return lsleep_time(L);
 }
 #else
-static int lsleep_usleep(lua_State *L){
-	long usecs = lua_tointeger(L, -1);
+static int lsleep_sleep(lua_State *L){
+	long usecs = luaL_checkinteger(L, 1);
 	usleep(usecs);
 	return 0;  
 }
@@ -65,19 +74,15 @@ Blocks execution of your Lua script for `wait` seconds.
 @function sleep
 @param[type=number] wait The number of seconds to wait.
 */
-static int lsleep_sleep(lua_State *L){
-	sleep((long) lua_tointeger(L, -1) * S_TICKS);
-	return 0;
-}
 
 static const struct luaL_Reg lsleep_metamethods [] = {
-	{"__call", lsleep_sleep},
+	{"__call", lsleep_time},
 	{NULL, NULL}
 
 };
 static const struct luaL_Reg lsleep_funcs [] = {
 	{"sleep", lsleep_sleep},
-	{"usleep", lsleep_usleep},
+	{"time", lsleep_time},
 	{NULL, NULL}
 
 };

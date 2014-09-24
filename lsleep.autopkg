@@ -2,7 +2,7 @@ nuget {
 	nuspec {
 		id = lsleep;
 		title: lsleep module for Lua;
-		version: 1.0.000.9;
+		version: 1.1.000.1;
 		authors: {coapp, Andrew Starks, Tightrope Media Systems};
 		owners: {Tightrope Media Systems};
 		licenseUrl: "http://opensource.org/licenses/MIT";
@@ -12,7 +12,7 @@ nuget {
 		copyright: "Copyright 2013-2014 Tightrope Media Systems, Saint Paul, Minnesota";
 		tags: {native, Lua, module};
 		description: {
-@"lsleep is a cross-platform, high performance sleep timer for lua. It uses the operating system's (Windows/Mac/Linux) native sleep facility to pause Lua execution for a specified time."};
+@"lsleep is a cross-platform, high performance sleep timer for lua. It uses the operating system's (Windows/Mac/Linux) native sleep facility to pause Lua execution for a specified time. This version looses the lower-resolution version and adds time, which returns ticks."};
 	};
 dependencies {
         // This node defines any outside items which may be needed to consume this package.
