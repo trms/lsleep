@@ -37,6 +37,8 @@ Blocks execution of your Lua script for `wait` X 100 nanoseconds (NT) (1/10,000,
 */
 
 #ifdef _WINDLL
+_int64 TICKS;
+
 int lsleep_time(lua_State *L)
 {
 	LARGE_INTEGER ft; 
@@ -44,7 +46,10 @@ int lsleep_time(lua_State *L)
 	lua_pushinteger(L, (_int64) ft.QuadPart);
 	return 1;
 }
-
+int lsleep_getticks(lua_State *L) {
+	lua_pushinteger(L, (_int64) TICKS);
+	return 1;
+}
 int lsleep_sleep(lua_State *L ) 
 { 
 	__int64 usec;
@@ -83,12 +88,21 @@ static const struct luaL_Reg lsleep_metamethods [] = {
 static const struct luaL_Reg lsleep_funcs [] = {
 	{"sleep", lsleep_sleep},
 	{"time", lsleep_time},
+	{"getticks", lsleep_getticks},
 	{NULL, NULL}
 
 };
 
 //register table with default __call to sleep
  DLL int luaopen_lsleep(lua_State *L){
+	
+	LARGE_INTEGER PERF_FREQ;
+
+	if (!QueryPerformanceFrequency(&PERF_FREQ)) {
+		luaL_error(L, "Performance timer is not supported on this Windows platrform.");
+	}
+	TICKS = PERF_FREQ.QuadPart;
+
 	luaL_newlib(L, lsleep_funcs); //returned table with sleep and usleep as the fields.
 	luaL_newlib(L, lsleep_metamethods); //add the metatable, which adds the __call to sleep.
 	lua_setmetatable(L, -2);
