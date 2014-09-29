@@ -38,39 +38,37 @@ Blocks execution of your Lua script for `wait` X 100 nanoseconds (NT) (1/10,000,
 
 #ifdef _WINDLL
 _int64 TICKS;
+_int64 TO_NT;
+_int64 TO_TICKS;
 
 #define NANO_TIME 10 * 1000 * 1000
+
+int lsleep_getticks(lua_State *L) {
+	lua_pushinteger(L, (_int64) TICKS);
+	return 1;
+}
 
 int lsleep_time(lua_State *L)
 {
 	LARGE_INTEGER ft;
 	QueryPerformanceCounter(&ft);
+	lua_pushinteger(L, (_int64) ft.QuadPart * TO_NT );
+	return 1;
+}
 
-	if (TICKS != NANO_TIME) {
-		lua_pushinteger(L, (_int64) ft.QuadPart * NANO_TIME / TICKS );
-	}
-	else{
-		lua_pushinteger(L, (_int64) ft.QuadPart);
-	}
-	return 1;
-}
-int lsleep_getticks(lua_State *L) {
-	lua_pushinteger(L, (_int64) TICKS);
-	return 1;
-}
 int lsleep_sleep(lua_State *L ) 
 { 
-	__int64 usec;
+	__int64 nt_tv;
     HANDLE timer; 
     LARGE_INTEGER ft; 
 	
-	usec = (__int64) luaL_checkinteger(L,1);
-    ft.QuadPart = -(10*usec); // neg is relative
-
-    timer = CreateWaitableTimer(NULL, TRUE, NULL); 
-    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
-    WaitForSingleObject(timer, INFINITE); 
-    CloseHandle(timer);
+	nt_tv = (__int64) luaL_checkinteger(L,1);
+	ft.QuadPart = - ( nt_tv * TO_TICKS ); // neg is relative
+	
+	timer = CreateWaitableTimer(NULL, TRUE, NULL); 
+   SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
+   WaitForSingleObject(timer, INFINITE); 
+   CloseHandle(timer);
 
 	return lsleep_time(L);
 }
@@ -110,6 +108,8 @@ static const struct luaL_Reg lsleep_funcs [] = {
 		luaL_error(L, "Performance timer is not supported on this Windows platrform.");
 	}
 	TICKS = PERF_FREQ.QuadPart;
+	TO_NT = NANO_TIME / TICKS;
+	TO_TICKS = TICKS / NANO_TIME;
 
 	luaL_newlib(L, lsleep_funcs); //returned table with sleep and usleep as the fields.
 	luaL_newlib(L, lsleep_metamethods); //add the metatable, which adds the __call to sleep.

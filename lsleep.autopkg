@@ -2,11 +2,11 @@ nuget {
 	nuspec {
 		id = lsleep;
 		title: lsleep module for Lua;
-		version: 1.1.000.1;
+		version: 1.2.000.1;
 		authors: {coapp, Andrew Starks, Tightrope Media Systems};
 		owners: {Tightrope Media Systems};
 		licenseUrl: "http://opensource.org/licenses/MIT";
-		releaseNotes: {@"Initial release."}; 
+		releaseNotes: {@"Now supports only nano time. Uses getperformancecounter and getperformancefrequency for 'time', which is not adjusted to match system time. This library should be renamed to clock and merged in with mediacircus clock."}; 
 		requireLicenseAcceptance:false;
 		summary: "A simple nanotime sleep module for lua.";
 		copyright: "Copyright 2013-2014 Tightrope Media Systems, Saint Paul, Minnesota";
