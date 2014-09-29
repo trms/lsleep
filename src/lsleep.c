@@ -39,7 +39,7 @@ Blocks execution of your Lua script for `wait` X 100 nanoseconds (NT) (1/10,000,
 #ifdef _WINDLL
 _int64 TICKS;
 
-#define NANOS 10 * 1000 * 1000
+#define NANOS 10000000L
 
 int lsleep_getticks(lua_State *L) {
 	lua_pushinteger(L, (_int64) TICKS);
@@ -61,11 +61,12 @@ int lsleep_sleep(lua_State *L )
     LARGE_INTEGER ft; 
 	
 	nt_tv = (__int64) luaL_checkinteger(L,1);
+	
 	ft.QuadPart = - ( nt_tv * TICKS / NANOS ); // neg is relative
 	
 	timer = CreateWaitableTimer(NULL, TRUE, NULL); 
    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
-   WaitForSingleObject(timer, INFINITE); 
+	WaitForSingleObject(timer, INFINITE); 
    CloseHandle(timer);
 
 	return lsleep_time(L);

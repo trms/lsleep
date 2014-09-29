@@ -17,7 +17,11 @@ for i = 1, 10 do
 end
 
 print("time", lsleep.time())
-print("nt to ticks?",  nt - ticks, nt, ticks, ticks//nt)
+print("nt to ticks?",  nt - ticks, nt, ticks, ticks / nt)
+
+-- print('sleep' 1)
+
+print("\nslept", lsleep.sleep(nt))
 
 --FINISHING LSLEEP, which we should rename to lclock and make crossplatform again. THen need to test timeout.
 
