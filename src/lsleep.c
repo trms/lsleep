@@ -39,11 +39,19 @@ Blocks execution of your Lua script for `wait` X 100 nanoseconds (NT) (1/10,000,
 #ifdef _WINDLL
 _int64 TICKS;
 
+#define NANO_TIME 10 * 1000 * 1000
+
 int lsleep_time(lua_State *L)
 {
-	LARGE_INTEGER ft; 
+	LARGE_INTEGER ft;
 	QueryPerformanceCounter(&ft);
-	lua_pushinteger(L, (_int64) ft.QuadPart);
+
+	if (TICKS != NANO_TIME) {
+		lua_pushinteger(L, (_int64) ft.QuadPart * NANO_TIME / TICKS );
+	}
+	else{
+		lua_pushinteger(L, (_int64) ft.QuadPart);
+	}
 	return 1;
 }
 int lsleep_getticks(lua_State *L) {
