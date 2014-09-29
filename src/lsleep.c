@@ -50,7 +50,7 @@ int lsleep_time(lua_State *L)
 {
 	LARGE_INTEGER ft;
 	QueryPerformanceCounter(&ft);
-	lua_pushinteger(L, (_int64) ft.QuadPart * NANOS / TICKS );
+	lua_pushinteger(L, ft.QuadPart * NANOS / TICKS );
 	return 1;
 }
 
@@ -61,12 +61,12 @@ int lsleep_sleep(lua_State *L )
     LARGE_INTEGER ft; 
 	
 	nt_tv = (__int64) luaL_checkinteger(L,1);
-	
-	ft.QuadPart = - ( nt_tv * TICKS / NANOS ); // neg is relative
+	//don't convert from ticks. waitable timers use nanos, always. 
+	ft.QuadPart = - nt_tv; // neg is relative
 	
 	timer = CreateWaitableTimer(NULL, TRUE, NULL); 
    SetWaitableTimer(timer, &ft, 0, NULL, NULL, 0); 
-	WaitForSingleObject(timer, INFINITE); 
+   WaitForSingleObject(timer, INFINITE); 
    CloseHandle(timer);
 
 	return lsleep_time(L);
