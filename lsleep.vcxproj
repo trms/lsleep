@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="packages\lua.5.3.0003.03\build\native\lua.props" Condition="Exists('packages\lua.5.3.0003.03\build\native\lua.props')" />
+  <Import Project="packages\lua.5.3.0004.01\build\native\lua.props" Condition="Exists('packages\lua.5.3.0004.01\build\native\lua.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -50,7 +50,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
-    <Import Project="packages\lua.5.3.0003.03\build\native\lua.targets" Condition="Exists('packages\lua.5.3.0003.03\build\native\lua.targets')" />
+    <Import Project="packages\lua.5.3.0004.01\build\native\lua.targets" Condition="Exists('packages\lua.5.3.0004.01\build\native\lua.targets')" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="output_dirs.props" />
@@ -127,7 +127,7 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('packages\lua.5.3.0003.03\build\native\lua.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\lua.5.3.0003.03\build\native\lua.props'))" />
-    <Error Condition="!Exists('packages\lua.5.3.0003.03\build\native\lua.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\lua.5.3.0003.03\build\native\lua.targets'))" />
+    <Error Condition="!Exists('packages\lua.5.3.0004.01\build\native\lua.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\lua.5.3.0004.01\build\native\lua.props'))" />
+    <Error Condition="!Exists('packages\lua.5.3.0004.01\build\native\lua.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\lua.5.3.0004.01\build\native\lua.targets'))" />
   </Target>
 </Project>
