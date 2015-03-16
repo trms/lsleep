@@ -2,7 +2,7 @@ nuget {
 	nuspec {
 		id = lsleep;
 		title: lsleep module for Lua;
-		version: 1.2.000.3;
+		version: 1.2.000.5;
 		authors: {coapp, Andrew Starks, Tightrope Media Systems};
 		owners: {Tightrope Media Systems};
 		licenseUrl: "http://opensource.org/licenses/MIT";
@@ -19,7 +19,8 @@ dependencies {
         packages : {
             // This is a list of other NuGet packages required to use this package.
             // Each item follows the format "<pkg_name>/<version>"
-            lua/"[5.3.0004.01, 5.4)",
+			// greater or equal to 5.3 (https://docs.nuget.org/create/versioning)
+            lua/"5.3",
         };
     };
 	files {
@@ -35,22 +36,22 @@ dependencies {
 			#destination : ${build_root}\${conditionFolder}\pdbs;
         };
 		
-		[x64, v100, Release] {
+		[x64, Release] {
         	bin: {"x64\Release\lsleep.dll"};
         	mypdb: {x64\Release\lsleep.pdb};
         };
 		
-		[x64, v100, Debug] {
+		[x64, Debug] {
         	bin: {"x64\Debug\lsleep.dll"};
         	mypdb: {x64\Debug\lsleep.pdb};
         };
 		
-        [win32, v100, Release]{
+        [win32, Release]{
         	bin: {"Win32\Release\lsleep.dll"};
         	mypdb: {"Win32\Release\lsleep.pdb"};
         }
 		
-		[win32, v100, Debug]{
+		[win32, Debug]{
         	bin: {"Win32\Debug\lsleep.dll"};
         	mypdb: {"Win32\Debug\lsleep.pdb"};
         }
