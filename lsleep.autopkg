@@ -2,7 +2,7 @@ nuget {
 	nuspec {
 		id = lsleep;
 		title: lsleep module for Lua;
-		version: 1.2.000.5;
+		version: 1.2.000.7;
 		authors: {coapp, Andrew Starks, Tightrope Media Systems};
 		owners: {Tightrope Media Systems};
 		licenseUrl: "http://opensource.org/licenses/MIT";
